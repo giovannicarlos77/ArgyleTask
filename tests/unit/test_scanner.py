@@ -35,10 +35,13 @@ def test_extract_data(mock_scanner_dependencies):
     mock_formatted_data = Mock()
     mock_formatted_data.model_dump_json.return_value = "some_json_data"
     mock_format_data.return_value = mock_formatted_data
+    scanner._save_cookies = Mock()
 
     mock_driver_utils.search_element.side_effect = mock_search_element
+    mock_utils.check_text.side_effect = lambda driver, text: False
+
     scanner._extract_data()
-    assert mock_sleep.call_count == 3
+    assert mock_sleep.call_count == 5
     assert mock_beautiful_soup.call_count == 2
 
     mock_formatted_data.model_dump_json.assert_called_once_with(indent=4)

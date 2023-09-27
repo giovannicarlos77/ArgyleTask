@@ -22,12 +22,10 @@ from scanner.scanner import Scanner
 @pytest.fixture
 def scanner_with_valid_credentials():
     scanner = Scanner("https://www.upwork.com/ab/account-security/login")
-    scanner.mail = "recruitment+scanners+task@argyle.com"
-    scanner.password = "ArgyleAwesome!@"
+    scanner.mail = "hackergames3@gmail.com"
+    scanner.password = "teste114"
     scanner.secret = "TheDude"
     yield scanner
-    # Clean up cookies after each test
-    cleanup_cookies(scanner)
 
 def cleanup_cookies(scanner):
     cookie_filename = f"{scanner.mail}_cookies.pkl"
@@ -59,6 +57,7 @@ def test_scanner_with_cookies(scanner_with_valid_credentials):
         json_file_path = os.path.join("employees", json_file)
         os.remove(json_file_path)
 
+    cleanup_cookies(scanner)
     time.sleep(3)
 
 def test_scanner_invalid_password(scanner_with_valid_credentials):
